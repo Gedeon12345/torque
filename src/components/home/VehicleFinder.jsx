@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import Container from "@/components/common/Container";
 import Button from "@/components/ui/Button";
@@ -7,16 +8,16 @@ import { vehicleCatalog, vehicleEngines, vehicleYears } from "@/data/vehicles";
 
 const EMPTY_SELECTION = { brand: "", model: "", year: "", engine: "" };
 
-/** Recherche par véhicule : purement visuelle pour le moment (données mockées). */
 export default function VehicleFinder() {
   const [selection, setSelection] = useState(EMPTY_SELECTION);
-  const [feedback, setFeedback] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const navigate = useNavigate();
 
   const models = selection.brand ? vehicleCatalog[selection.brand] : [];
   const hasModel = Boolean(selection.model);
 
   const update = (field, value) => {
-    setFeedback(null);
+    setShowError(false);
     setSelection((current) => {
       if (field === "brand") return { ...EMPTY_SELECTION, brand: value };
       if (field === "model") return { ...current, model: value, year: "", engine: "" };
@@ -26,15 +27,11 @@ export default function VehicleFinder() {
 
   const handleSearch = () => {
     if (!selection.brand || !selection.model) {
-      setFeedback({ isError: true, text: "Choisissez au moins une marque et un modèle." });
+      setShowError(true);
       return;
     }
-    const label = Object.values(selection).filter(Boolean).join(" · ");
-    const demoCount = 18 + ((selection.brand.length * selection.model.length) % 40);
-    setFeedback({
-      isError: false,
-      text: `${demoCount} pièces de démonstration compatibles avec ${label}.`,
-    });
+    const filledFields = Object.entries(selection).filter(([, value]) => value);
+    navigate({ pathname: "/search", search: `?${createSearchParams(filledFields)}` });
   };
 
   return (
@@ -82,17 +79,11 @@ export default function VehicleFinder() {
           </Button>
         </div>
 
-        <p role="status" aria-live="polite" className={feedback ? "mt-3.5" : ""}>
-          {feedback && (
-            <span
-              className={`block rounded-[10px] px-3.5 py-3 text-sm ${
-                feedback.isError ? "bg-accent-soft text-danger" : "bg-accent-soft text-ink"
-              }`}
-            >
-              {feedback.text}
-            </span>
-          )}
-        </p>
+        {showError && (
+          <p role="alert" className="mt-3.5 rounded-[10px] bg-accent-soft px-3.5 py-3 text-sm text-danger">
+            Choisissez au moins une marque et un modèle.
+          </p>
+        )}
       </div>
     </Container>
   );

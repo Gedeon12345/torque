@@ -1,23 +1,19 @@
-import { motion } from "framer-motion";
-import { Check, Heart, ShoppingCart, Star } from "lucide-react";
+import { Check, ShoppingCart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import FavoriteButton from "@/components/product/FavoriteButton";
+import ProductBadge from "@/components/product/ProductBadge";
+import ProductPrice from "@/components/product/ProductPrice";
+import StockStatus from "@/components/product/StockStatus";
 import Button from "@/components/ui/Button";
-import { stockLabels } from "@/data/products";
 import { useTransientFlag } from "@/hooks/useTransientFlag";
 import { useShop } from "@/store/ShopProvider";
-import { formatPrice, formatRating } from "@/utils/format";
-
-const badgeStyles = {
-  Nouveau: "bg-ink text-bg",
-  Promo: "bg-accent text-white",
-};
+import { formatRating } from "@/utils/format";
 
 export default function ProductCard({ product }) {
   const { id, name, brand, image, imageAlt, price, oldPrice, rating, reviewCount, stock, badge, compatibility } =
     product;
-  const { isFavorite, toggleFavorite, addToCart } = useShop();
+  const { addToCart } = useShop();
   const [justAdded, flagAsAdded] = useTransientFlag();
-  const favorite = isFavorite(id);
 
   const handleAddToCart = () => {
     addToCart(id);
@@ -36,28 +32,8 @@ export default function ProductCard({ product }) {
           decoding="async"
           className="size-full object-contain p-[10%]"
         />
-
-        {badge && (
-          <span className={`absolute left-2.5 top-2.5 rounded-full px-2.5 py-[3px] text-xs font-bold ${badgeStyles[badge]}`}>
-            {badge}
-          </span>
-        )}
-
-        <button
-          type="button"
-          onClick={() => toggleFavorite(id)}
-          aria-pressed={favorite}
-          aria-label={favorite ? `Retirer des favoris : ${name}` : `Ajouter aux favoris : ${name}`}
-          className="absolute right-2 top-2 flex size-10 items-center justify-center rounded-full border border-line bg-surface text-ink transition-[border-color,transform] hover:border-ink active:scale-90"
-        >
-          <motion.span
-            animate={{ scale: favorite ? [1, 1.35, 1] : 1 }}
-            transition={{ duration: 0.35 }}
-            className="flex"
-          >
-            <Heart size={19} aria-hidden="true" className={favorite ? "fill-accent text-accent" : ""} />
-          </motion.span>
-        </button>
+        <ProductBadge badge={badge} className="absolute left-2.5 top-2.5" />
+        <FavoriteButton productId={id} productName={name} className="absolute right-2 top-2" />
       </div>
 
       <div className="flex flex-1 flex-col gap-1.5 p-3 md:gap-[7px] md:p-4">
@@ -82,24 +58,10 @@ export default function ProductCard({ product }) {
           <span>({reviewCount} avis)</span>
         </p>
 
-        <p
-          className={`flex items-center gap-[7px] text-[13px] font-semibold ${
-            stock === "low-stock" ? "text-danger" : "text-success"
-          }`}
-        >
-          <span aria-hidden="true" className="size-2 rounded-full bg-current" />
-          {stockLabels[stock]}
-        </p>
-
-        <p className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          <span className="text-base font-bold min-[400px]:text-lg md:text-xl">{formatPrice(price)}</span>
-          {oldPrice && (
-            <s className="text-[13px] text-ink-2">
-              <span className="sr-only">Ancien prix : </span>
-              {formatPrice(oldPrice)}
-            </s>
-          )}
-        </p>
+        <StockStatus stock={stock} />
+        <div className="mt-1">
+          <ProductPrice price={price} oldPrice={oldPrice} />
+        </div>
 
         <div className="mt-auto flex gap-2 pt-2.5">
           <Button as={Link} to={`/products/${id}`} variant="ghost" size="compact" className="flex-1">

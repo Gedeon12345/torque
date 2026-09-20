@@ -1,5 +1,6 @@
 import { ChevronDown } from "lucide-react";
 
+/** `options` : liste de textes ou d'objets { value, label }. `placeholder={null}` supprime l'option vide. */
 export default function SelectField({
   id,
   label,
@@ -9,6 +10,10 @@ export default function SelectField({
   disabled = false,
   placeholder = "Choisir",
 }) {
+  const items = options.map((option) =>
+    typeof option === "string" ? { value: option, label: option } : option,
+  );
+
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-[13px] font-semibold text-ink-2">
@@ -22,10 +27,10 @@ export default function SelectField({
           onChange={(event) => onChange(event.target.value)}
           className="h-12 w-full appearance-none rounded-[10px] border border-line-strong bg-bg pl-3.5 pr-10 text-ink transition-colors hover:enabled:border-ink disabled:cursor-not-allowed disabled:opacity-50"
         >
-          <option value="">{placeholder}</option>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
+          {placeholder !== null && <option value="">{placeholder}</option>}
+          {items.map((item) => (
+            <option key={item.value} value={item.value}>
+              {item.label}
             </option>
           ))}
         </select>

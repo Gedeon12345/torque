@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import Container from "@/components/common/Container";
 import Button from "@/components/ui/Button";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 export default function NotFoundPage() {
+  useDocumentTitle("Page introuvable");
+
   return (
     <Container className="min-h-[60vh] pt-28">
       <p className="font-display text-xl font-bold text-accent">Erreur 404</p>

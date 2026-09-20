@@ -17,14 +17,14 @@ React 19 · Vite · Tailwind CSS 4 · React Router · Framer Motion · Lucide Re
 
 ```
 src/
-├── components/  common · layout · ui · home · product
+├── components/  common · layout · ui · home · product · catalog · cart
 ├── data/        site · navigation · categories · vehicles · products · brands · testimonials · advantages
-├── hooks/       useScrolled · useTransientFlag
-├── utils/       motion · discGeometry · format
+├── hooks/       useScrolled · useTransientFlag · usePersistentState · useDocumentTitle · useSortParam
+├── utils/       motion · discGeometry · format · catalog (recherche, tri)
 ├── layouts/     MainLayout
-├── pages/       HomePage, PlaceholderPage
+├── pages/       Home · Products · ProductDetail · Category · Search · Cart · Favorites · About
 ├── routes/      AppRoutes
-├── store/       ShopProvider (panier + favoris, état local)
+├── store/       ShopProvider (panier + favoris, sauvegardés dans le localStorage)
 └── index.css    palette et tokens Tailwind
 ```
 
@@ -36,7 +36,8 @@ Alias : `@/` pointe vers `src/`.
 - [x] Phase 2 : hero, recherche véhicule, catégories
 - [x] Phase 3 : produits, ProductCard, marques, témoignages (+ Pourquoi nous choisir, CTA)
 - [x] Phase 4 : animations, responsive, polish (transitions de page, page 404, corrections 320 px, accessibilité)
-- [ ] Phase 5 : pages supplémentaires, interactions locales
+- [x] Phase 5 : catalogue, fiche produit, catégories, recherche, panier, favoris, à propos
+- [ ] Page Contact (en attente de décision)
 
 ## Déploiement (Vercel)
 
