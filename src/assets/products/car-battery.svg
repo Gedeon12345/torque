@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" width="200" height="150">
+  <ellipse cx="100" cy="128" rx="68" ry="6" fill="#000" opacity=".08"/>
+  <rect x="52" y="38" width="20" height="12" rx="2" fill="#C9CDD3"/>
+  <rect x="128" y="38" width="20" height="12" rx="2" fill="#C9CDD3"/>
+  <rect x="34" y="48" width="132" height="74" rx="8" fill="#2F343C" stroke="#6B7380" stroke-width="1.5"/>
+  <rect x="34" y="48" width="132" height="14" rx="6" fill="#5E6570"/>
+  <rect x="54" y="74" width="92" height="32" rx="4" fill="#D6251C"/>
+  <text x="100" y="97" text-anchor="middle" font-family="Arial Narrow, Arial, sans-serif" font-weight="800" font-size="20" fill="#fff" letter-spacing="1">12V 60Ah</text>
+</svg>

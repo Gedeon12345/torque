@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import Container from "@/components/common/Container";
+import Section from "@/components/common/Section";
 import CategoryCard from "@/components/home/CategoryCard";
 import Button from "@/components/ui/Button";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -9,7 +9,7 @@ import { fadeUp, revealOnScroll, staggerContainer } from "@/utils/motion";
 
 export default function CategoriesSection() {
   return (
-    <Container as="section" id="categories" className="pt-[72px] lg:pt-28" aria-labelledby="categories-title">
+    <Section id="categories" aria-labelledby="categories-title">
       <SectionHeading
         id="categories-title"
         title="Explorez nos catégories"
@@ -33,6 +33,6 @@ export default function CategoriesSection() {
           Voir toutes les catégories
         </Button>
       </div>
-    </Container>
+    </Section>
   );
 }
