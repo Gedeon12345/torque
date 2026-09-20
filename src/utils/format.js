@@ -1,10 +1,9 @@
 const NON_BREAKING_SPACE = "\u00a0";
-const priceFormatter = new Intl.NumberFormat("fr-FR");
+const priceFormatter = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
 
-/** 35000 → "35 000 FCFA" (espaces insécables pour éviter les retours à la ligne). */
+/** 54.9 → "54,90 €" (espaces insécables pour éviter les retours à la ligne). */
 export function formatPrice(amount) {
-  const digits = priceFormatter.format(amount).replace(/[\u202f\u00a0]/g, NON_BREAKING_SPACE);
-  return `${digits}${NON_BREAKING_SPACE}FCFA`;
+  return priceFormatter.format(amount).replace(/[\u202f\u00a0]/g, NON_BREAKING_SPACE);
 }
 
 /** 4.8 → "4,8" */

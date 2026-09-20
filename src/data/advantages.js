@@ -8,7 +8,7 @@ export const advantages = [
   },
   {
     title: "Prix compétitifs",
-    description: "Prix clairs en FCFA, ancien tarif affiché pendant les promotions.",
+    description: "Prix clairs en euros, ancien tarif affiché pendant les promotions.",
     icon: Tag,
   },
   {

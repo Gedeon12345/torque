@@ -2,6 +2,7 @@ import { Check, ShoppingCart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import FavoriteButton from "@/components/product/FavoriteButton";
 import ProductBadge from "@/components/product/ProductBadge";
+import ProductImage from "@/components/product/ProductImage";
 import ProductPrice from "@/components/product/ProductPrice";
 import StockStatus from "@/components/product/StockStatus";
 import Button from "@/components/ui/Button";
@@ -10,7 +11,7 @@ import { useShop } from "@/store/ShopProvider";
 import { formatRating } from "@/utils/format";
 
 export default function ProductCard({ product }) {
-  const { id, name, brand, image, imageAlt, price, oldPrice, rating, reviewCount, stock, badge, compatibility } =
+  const { id, name, brand, price, oldPrice, rating, reviewCount, stock, badge, compatibility } =
     product;
   const { addToCart } = useShop();
   const [justAdded, flagAsAdded] = useTransientFlag();
@@ -23,15 +24,7 @@ export default function ProductCard({ product }) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_22px_44px_-24px_rgba(20,24,32,0.4)]">
       <div className="relative aspect-[4/3] bg-tile">
-        <img
-          src={image}
-          alt={imageAlt}
-          width="200"
-          height="150"
-          loading="lazy"
-          decoding="async"
-          className="size-full object-contain p-[10%]"
-        />
+        <ProductImage product={product} />
         <ProductBadge badge={badge} className="absolute left-2.5 top-2.5" />
         <FavoriteButton productId={id} productName={name} className="absolute right-2 top-2" />
       </div>

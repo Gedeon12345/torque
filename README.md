@@ -44,3 +44,27 @@ Alias : `@/` pointe vers `src/`.
 - Framework détecté : Vite (build `npm run build`, sortie `dist`).
 - `vercel.json` renvoie toutes les URL vers `index.html`, sinon un rafraîchissement
   sur `/cart` ou `/products/1` donnerait une erreur 404 (React Router gère les routes côté client).
+
+## Photos des produits
+
+Les photos vont dans `public/products/` (format 4:3, par exemple 1200 × 900 px, JPG, fond neutre).
+Tant qu'un fichier est absent, une illustration de secours s'affiche : le site fonctionne dès maintenant
+et chaque photo ajoutée remplace automatiquement l'illustration.
+
+| Fichier attendu | Produit |
+| --- | --- |
+| `plaquettes-frein-avant.jpg` | Plaquettes de frein avant |
+| `filtre-a-huile.jpg` | Filtre à huile |
+| `phare-led-universel.jpg` | Phare LED universel |
+| `disque-frein-ventile.jpg` | Disque de frein ventilé |
+| `amortisseur-avant.jpg` | Amortisseur avant |
+| `batterie-12v-60ah.jpg` | Batterie 12 V 60 Ah |
+| `bougies-allumage.jpg` | Bougies d'allumage (jeu de 4) |
+| `pneu-205-55-r16.jpg` | Pneu 205/55 R16 |
+| `filtre-habitacle.jpg` | Filtre d'habitacle |
+| `plaquettes-frein-arriere.jpg` | Plaquettes de frein arrière |
+| `amortisseur-arriere.jpg` | Amortisseur arrière |
+| `batterie-12v-70ah.jpg` | Batterie 12 V 70 Ah |
+| `feux-arriere-led.jpg` | Feux arrière LED |
+
+Les prix sont en euros (`utils/format.js`).

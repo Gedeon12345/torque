@@ -17,7 +17,7 @@ export default function AboutPage() {
         />
         <div className="max-w-[62ch] space-y-4 text-lg leading-relaxed text-ink-2">
           <p>
-            Choisir une pièce automobile ne devrait pas être un pari. Chaque fiche indique la compatibilité, le prix en FCFA
+            Choisir une pièce automobile ne devrait pas être un pari. Chaque fiche indique la compatibilité, le prix
             et la disponibilité, pour que vous puissiez commander en confiance.
           </p>
           <p>

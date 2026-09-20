@@ -5,6 +5,7 @@ import Container from "@/components/common/Container";
 import Section from "@/components/common/Section";
 import FavoriteButton from "@/components/product/FavoriteButton";
 import ProductBadge from "@/components/product/ProductBadge";
+import ProductImage from "@/components/product/ProductImage";
 import ProductGrid from "@/components/product/ProductGrid";
 import ProductPrice from "@/components/product/ProductPrice";
 import StockStatus from "@/components/product/StockStatus";
@@ -51,14 +52,8 @@ export default function ProductDetailPage() {
         />
 
         <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-14">
-          <div className="relative aspect-[4/3] rounded-[20px] bg-tile">
-            <img
-              src={product.image}
-              alt={product.imageAlt}
-              width="200"
-              height="150"
-              className="size-full object-contain p-[10%]"
-            />
+          <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-tile">
+            <ProductImage key={product.id} product={product} loading="eager" />
             <ProductBadge badge={product.badge} className="absolute left-4 top-4" />
             <FavoriteButton
               productId={product.id}
