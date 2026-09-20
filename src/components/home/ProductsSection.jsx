@@ -26,6 +26,7 @@ export default function ProductsSection() {
       />
 
       <motion.ul
+ role="list"
         variants={staggerContainer(0.08)}
         {...revealOnScroll}
         className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5"

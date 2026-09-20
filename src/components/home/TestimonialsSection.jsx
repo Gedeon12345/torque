@@ -28,6 +28,7 @@ export default function TestimonialsSection() {
       />
 
       <ul
+ role="list"
         ref={trackRef}
         onScroll={handleScroll}
         className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-3 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0"

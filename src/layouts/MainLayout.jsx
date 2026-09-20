@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import PageTransition from "@/components/common/PageTransition";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 
@@ -13,7 +14,9 @@ export default function MainLayout() {
       </a>
       <Header />
       <main id="main" className="flex-1">
-        <Outlet />
+        <PageTransition>
+          <Outlet />
+        </PageTransition>
       </main>
       <Footer />
     </div>

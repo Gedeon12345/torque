@@ -5,6 +5,7 @@ const variants = {
 };
 
 const sizes = {
+  compact: "h-12 px-3 text-[15px]",
   md: "h-12 px-[22px] text-[15px]",
   lg: "h-14 px-[30px] text-base",
   icon: "size-12 text-[15px]",

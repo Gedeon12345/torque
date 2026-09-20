@@ -92,7 +92,7 @@ export default function ProductCard({ product }) {
         </p>
 
         <p className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          <span className="text-lg font-bold md:text-xl">{formatPrice(price)}</span>
+          <span className="text-base font-bold min-[400px]:text-lg md:text-xl">{formatPrice(price)}</span>
           {oldPrice && (
             <s className="text-[13px] text-ink-2">
               <span className="sr-only">Ancien prix : </span>
@@ -102,7 +102,7 @@ export default function ProductCard({ product }) {
         </p>
 
         <div className="mt-auto flex gap-2 pt-2.5">
-          <Button as={Link} to={`/products/${id}`} variant="ghost" className="flex-1">
+          <Button as={Link} to={`/products/${id}`} variant="ghost" size="compact" className="flex-1">
             Voir
           </Button>
           <Button

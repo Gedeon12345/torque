@@ -8,7 +8,7 @@ export default function BrandsSection() {
     <Section id="marques" aria-labelledby="brands-title">
       <SectionHeading id="brands-title" title="Les marques que nous proposons" />
 
-      <ul className="flex flex-wrap justify-center gap-2.5 md:gap-3.5">
+      <ul role="list" className="flex flex-wrap justify-center gap-2.5 md:gap-3.5">
         {brands.map((brand) => (
           <li key={brand} className="basis-[calc(33.333%-7px)] md:basis-[calc(20%-12px)]">
             <Link

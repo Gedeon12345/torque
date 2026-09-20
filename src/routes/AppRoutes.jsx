@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "@/layouts/MainLayout";
 import HomePage from "@/pages/HomePage";
+import NotFoundPage from "@/pages/NotFoundPage";
 import PlaceholderPage from "@/pages/PlaceholderPage";
 
 const secondaryPages = [
@@ -22,7 +23,7 @@ export default function AppRoutes() {
         {secondaryPages.map(({ path, title }) => (
           <Route key={path} path={path} element={<PlaceholderPage title={title} />} />
         ))}
-        <Route path="*" element={<PlaceholderPage title="Page introuvable" />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

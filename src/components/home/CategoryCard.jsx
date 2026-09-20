@@ -12,7 +12,7 @@ export default function CategoryCard({ category }) {
         <Icon size={24} aria-hidden="true" />
       </span>
       <span>
-        <span className="block font-display text-[23px] font-bold leading-[1.1]">{category.name}</span>
+        <span className="block font-display text-[length:clamp(18px,5.4vw,23px)] font-bold leading-[1.1]">{category.name}</span>
         <span className="mt-1 block text-[13px] leading-snug text-ink-2">{category.description}</span>
       </span>
     </Link>

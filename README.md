@@ -35,7 +35,7 @@ Alias : `@/` pointe vers `src/`.
 - [x] Phase 1 : configuration, layout, header, footer
 - [x] Phase 2 : hero, recherche véhicule, catégories
 - [x] Phase 3 : produits, ProductCard, marques, témoignages (+ Pourquoi nous choisir, CTA)
-- [ ] Phase 4 : animations, responsive, polish
+- [x] Phase 4 : animations, responsive, polish (transitions de page, page 404, corrections 320 px, accessibilité)
 - [ ] Phase 5 : pages supplémentaires, interactions locales
 
 ## Déploiement (Vercel)

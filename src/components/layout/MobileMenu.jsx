@@ -15,7 +15,7 @@ export default function MobileMenu({ open, items, onNavigate }) {
           transition={{ duration: 0.25, ease: "easeOut" }}
           className="overflow-hidden border-t border-line lg:hidden"
         >
-          <ul className="px-5 pb-5">
+          <ul role="list" className="px-5 pb-5">
             {items.map((item) => (
               <li key={item.to}>
                 <Link
