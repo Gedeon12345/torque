@@ -9,15 +9,6 @@ export const vehicleCatalog = {
   Ford: ["Fiesta", "Focus", "Ranger"],
   Volkswagen: ["Polo", "Golf", "Tiguan"],
 };
-
-const LATEST_YEAR = 2025;
+const LATEST_YEAR = 2026;
 export const vehicleYears = Array.from({ length: 21 }, (_, index) => String(LATEST_YEAR - index));
-
-export const vehicleEngines = [
-  "Essence 1.2",
-  "Essence 1.6",
-  "Essence 2.0",
-  "Diesel 1.5",
-  "Diesel 2.0",
-  "Hybride",
-];
+export const vehicleEngines = ["Essence 1.2", "Essence 1.6", "Essence 2.0", "Diesel 1.5", "Diesel 2.0", "Hybride"];

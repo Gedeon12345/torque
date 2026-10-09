@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-/** useState sauvegardé dans le localStorage (le panier survit à un rafraîchissement). */
+/** useState sauvegardé dans le localStorage. */
 export function usePersistentState(key, initialValue) {
   const [value, setValue] = useState(() => {
     try {

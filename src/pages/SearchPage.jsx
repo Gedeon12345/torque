@@ -1,40 +1,28 @@
-import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { SearchX, X } from "lucide-react";
 import Container from "@/components/common/Container";
 import EmptyState from "@/components/common/EmptyState";
+import ErrorState from "@/components/common/ErrorState";
 import PageHeading from "@/components/common/PageHeading";
 import SearchBar from "@/components/common/SearchBar";
 import CatalogToolbar from "@/components/catalog/CatalogToolbar";
 import ProductGrid from "@/components/product/ProductGrid";
 import Button from "@/components/ui/Button";
-import { categories } from "@/data/categories";
+import Spinner from "@/components/ui/Spinner";
+import { useCategories } from "@/hooks/useCategories";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { useProducts } from "@/hooks/useProducts";
 import { useSortParam } from "@/hooks/useSortParam";
-import { searchProducts, sortProducts } from "@/utils/catalog";
-
-const VEHICLE_KEYS = ["brand", "model", "year", "engine"];
-
-function searchWithout(searchParams, keys) {
-  const next = new URLSearchParams(searchParams);
-  keys.forEach((key) => next.delete(key));
-  const text = next.toString();
-  return text ? `?${text}` : "";
-}
 
 export default function SearchPage() {
   useDocumentTitle("Recherche");
   const [searchParams, setSearchParams] = useSearchParams();
   const [sort, setSort] = useSortParam();
+  const { categories } = useCategories();
 
   const query = searchParams.get("q") ?? "";
   const brand = searchParams.get("brand") ?? "";
-  const vehicleLabel = VEHICLE_KEYS.map((key) => searchParams.get(key)).filter(Boolean).join(" · ");
-
-  const results = useMemo(
-    () => sortProducts(searchProducts({ query, brand }), sort),
-    [query, brand, sort],
-  );
+  const { products: results, isLoading, error } = useProducts({ q: query || undefined, brand: brand || undefined, sort, limit: 48 });
 
   const submitQuery = (nextQuery) => {
     setSearchParams((current) => {
@@ -45,57 +33,46 @@ export default function SearchPage() {
     });
   };
 
-  const title = query ? `Résultats pour « ${query} »` : vehicleLabel ? "Pièces pour votre véhicule" : "Recherche";
+  const clearBrand = () => {
+    const next = new URLSearchParams(searchParams);
+    next.delete("brand");
+    setSearchParams(next);
+  };
+
+  const title = query ? `Résultats pour « ${query} »` : brand ? `Pièces pour ${brand}` : "Recherche";
 
   return (
     <Container className="pt-24 lg:pt-32">
       <PageHeading title={title} />
-
-      {/* key : le champ se remet à jour si la recherche change depuis ailleurs (ex. le Hero). */}
       <SearchBar key={query} id="search-page-input" initialValue={query} onSubmit={submitQuery} />
 
-      {vehicleLabel && (
+      {brand && (
         <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
-          <Link
-            to={{ search: searchWithout(searchParams, VEHICLE_KEYS) }}
-            aria-label={`Retirer le filtre véhicule : ${vehicleLabel}`}
-            className="inline-flex h-9 items-center gap-1.5 rounded-full bg-accent-soft pl-3.5 pr-3 font-medium"
-          >
-            Véhicule : {vehicleLabel}
-            <X size={14} aria-hidden="true" />
-          </Link>
-          <span className="text-ink-2">Version démo : les pièces sont filtrées par marque de véhicule.</span>
+          <button type="button" onClick={clearBrand} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-accent-soft pl-3.5 pr-3 font-medium">
+            Marque : {brand}<X size={14} aria-hidden="true" />
+          </button>
         </div>
       )}
 
       <div className="mt-8">
-        {results.length > 0 ? (
+        {isLoading ? (
+          <div className="flex justify-center py-16"><Spinner /></div>
+        ) : error ? (
+          <ErrorState message={error.message} />
+        ) : results.length > 0 ? (
           <>
             <CatalogToolbar count={results.length} sort={sort} onSortChange={setSort} />
             <ProductGrid products={results} />
           </>
         ) : (
-          <EmptyState
-            icon={SearchX}
-            title="Aucun résultat"
-            description="Essayez un autre mot, une marque ou parcourez une catégorie."
+          <EmptyState icon={SearchX} title="Aucun résultat" description="Essayez un autre mot, une marque ou parcourez une catégorie."
             action={
               <div className="flex flex-wrap justify-center gap-2">
                 {categories.slice(0, 4).map((category) => (
-                  <Button
-                    key={category.slug}
-                    as={Link}
-                    to={`/categories/${category.slug}`}
-                    variant="ghost"
-                    size="compact"
-                    className="px-4"
-                  >
-                    {category.name}
-                  </Button>
+                  <Button key={category.slug} as={Link} to={`/categories/${category.slug}`} variant="ghost" size="compact" className="px-4">{category.name}</Button>
                 ))}
               </div>
-            }
-          />
+            } />
         )}
       </div>
     </Container>

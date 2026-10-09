@@ -1,4 +1,3 @@
-import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import BrandsSection from "@/components/home/BrandsSection";
 import CategoriesSection from "@/components/home/CategoriesSection";
 import CtaSection from "@/components/home/CtaSection";
@@ -7,10 +6,10 @@ import ProductsSection from "@/components/home/ProductsSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import VehicleFinder from "@/components/home/VehicleFinder";
 import WhySection from "@/components/home/WhySection";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 export default function HomePage() {
   useDocumentTitle();
-
   return (
     <>
       <Hero />

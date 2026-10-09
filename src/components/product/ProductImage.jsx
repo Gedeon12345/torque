@@ -1,23 +1,30 @@
 import { useState } from "react";
+import { getCategoryIcon } from "@/utils/categoryIcons";
 
 /**
- * Photo du produit (format 4:3). Si le fichier n'existe pas encore,
- * l'illustration de secours du produit est affichée à la place.
+ * Photo du produit. Si elle échoue à charger (pas encore déposée dans public/products/
+ * côté back-end), une icône de catégorie s'affiche à la place, pour que la page reste complète.
  */
-export default function ProductImage({ product, loading = "lazy" }) {
-  const [photoMissing, setPhotoMissing] = useState(false);
-  const { image, placeholder, imageAlt } = product;
+export default function ProductImage({ product, categoryIcon, loading = "lazy", className = "" }) {
+  const [broken, setBroken] = useState(false);
+  const Icon = getCategoryIcon(categoryIcon);
+
+  if (broken) {
+    return (
+      <div className={`flex size-full items-center justify-center text-ink-2 ${className}`}>
+        <Icon size={48} aria-hidden="true" />
+      </div>
+    );
+  }
 
   return (
     <img
-      src={photoMissing ? placeholder : image}
-      alt={imageAlt}
-      width="1200"
-      height="900"
+      src={product.imageUrl}
+      alt={product.imageAlt}
       loading={loading}
       decoding="async"
-      onError={() => setPhotoMissing(true)}
-      className={`size-full ${photoMissing ? "object-contain p-[10%]" : "object-cover"}`}
+      onError={() => setBroken(true)}
+      className={`size-full object-cover ${className}`}
     />
   );
 }

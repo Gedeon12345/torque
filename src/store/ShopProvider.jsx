@@ -4,7 +4,9 @@ import { usePersistentState } from "@/hooks/usePersistentState";
 const ShopContext = createContext(null);
 
 /**
- * État local du panier et des favoris (aucun backend), sauvegardé dans le navigateur.
+ * Panier et favoris : conservés dans le navigateur (pas de panier côté serveur pour l'instant).
+ * L'EXIGENCE d'un compte pour agir est imposée par les composants via useRequireAuth,
+ * pas par ce store : ici on ne fait que stocker l'état une fois l'action autorisée.
  * cartItems : { [productId]: quantité }
  */
 export function ShopProvider({ children }) {
@@ -14,9 +16,7 @@ export function ShopProvider({ children }) {
   const toggleFavorite = useCallback(
     (productId) => {
       setFavoriteIds((current) =>
-        current.includes(productId)
-          ? current.filter((id) => id !== productId)
-          : [...current, productId],
+        current.includes(productId) ? current.filter((id) => id !== productId) : [...current, productId],
       );
     },
     [setFavoriteIds],
@@ -24,10 +24,7 @@ export function ShopProvider({ children }) {
 
   const addToCart = useCallback(
     (productId, quantity = 1) => {
-      setCartItems((current) => ({
-        ...current,
-        [productId]: (current[productId] ?? 0) + quantity,
-      }));
+      setCartItems((current) => ({ ...current, [productId]: (current[productId] ?? 0) + quantity }));
     },
     [setCartItems],
   );

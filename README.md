@@ -1,70 +1,79 @@
 # Torque — Front-end (React + Vite + Tailwind)
 
-Boutique de pièces automobiles. Front-end uniquement, données mockées.
+Boutique de pièces automobiles, branchée sur l'API `torque-backend`.
 
 ## Démarrer
 
 ```bash
 npm install
+cp .env.example .env   # VITE_API_URL=http://localhost:4000/api par défaut
 npm run dev
 ```
 
-## Stack
+Le back-end (`torque-backend`) doit tourner en parallèle (`npm run dev` dans son propre dossier),
+avec au moins `npm run seed` exécuté une fois pour avoir des catégories et des produits à afficher.
 
-React 19 · Vite · Tailwind CSS 4 · React Router · Framer Motion · Lucide React
+## Compte obligatoire pour agir
+
+Le catalogue (accueil, pièces, catégories, recherche, fiche produit) est consultable sans compte :
+c'est la vitrine. Mais ajouter un favori, ajouter au panier, passer commande, et tout ce qui est sous
+`/account`, `/orders`, `/favorites`, `/cart` exigent d'être connecté. Sans compte, cliquer sur ces
+actions redirige vers `/login` (et revient à la page de départ une fois connecté).
+
+Pages : `/login`, `/register`, `/account`, `/orders`, `/orders/:idOrNumber`.
+
+## Espace administration
+
+`/admin`, `/admin/products`, `/admin/orders` sont réservés au rôle `admin` (voir le back-end pour
+créer un premier administrateur avec `npm run make-admin`). Un client connecté normal est renvoyé
+vers l'accueil. C'est un espace volontairement simple : tableau de bord, liste des produits avec
+archivage, liste des commandes avec changement de statut.
+
+## Données
+
+Le catalogue (produits, catégories), les comptes et les commandes viennent de l'API — plus aucune
+donnée mockée pour ces parties. Restent statiques (contenu éditorial, pas géré par le back-end) :
+`data/site.js`, `data/navigation.js`, `data/vehicles.js` (recherche par véhicule), `data/advantages.js`,
+`data/brands.js`, `data/testimonials.js`.
+
+### Photos produits
+
+Les fiches produits pointent vers `/products/<fichier>.jpg` sur le serveur du back-end. Tant qu'une
+photo n'est pas déposée là-bas, `ProductImage` affiche l'icône de la catégorie à la place : le site
+reste complet en attendant les vraies photos.
+
+## Panier et favoris
+
+Toujours stockés dans le navigateur (pas encore de panier côté serveur), mais toute action dessus
+passe par `useRequireAuth`, qui redirige vers la connexion si nécessaire — conformément à la règle
+« compte obligatoire pour agir ».
 
 ## Structure
 
 ```
 src/
-├── components/  common · layout · ui · home · product · catalog · cart
-├── data/        site · navigation · categories · vehicles · products · brands · testimonials · advantages
-├── hooks/       useScrolled · useTransientFlag · usePersistentState · useDocumentTitle · useSortParam
-├── utils/       motion · discGeometry · format · catalog (recherche, tri)
+├── components/  common · layout · ui · home · product · catalog · cart · auth · orders · admin
+├── data/        contenu éditorial statique (voir plus haut)
+├── hooks/       useProducts/useProduct/useCategories (API) · useOrders · useAdminResource ·
+│                useRequireAuth · useCartProducts · useDocumentTitle · useSortParam · etc.
 ├── layouts/     MainLayout
-├── pages/       Home · Products · ProductDetail · Category · Search · Cart · Favorites · About
-├── routes/      AppRoutes
-├── store/       ShopProvider (panier + favoris, sauvegardés dans le localStorage)
-└── index.css    palette et tokens Tailwind
+├── pages/       Home, Products, ProductDetail, Category, Search, Cart, Favorites, About,
+│                Login, Register, Account, Orders, OrderDetail, admin/*
+├── routes/      AppRoutes (ProtectedRoute pour un compte, AdminRoute pour le rôle admin)
+├── store/       AuthProvider (API) · ShopProvider (panier/favoris locaux)
+└── utils/       apiClient (fetch + jeton), format, motion, discGeometry, categoryIcons
 ```
-
-Alias : `@/` pointe vers `src/`.
-
-## Avancement
-
-- [x] Phase 1 : configuration, layout, header, footer
-- [x] Phase 2 : hero, recherche véhicule, catégories
-- [x] Phase 3 : produits, ProductCard, marques, témoignages (+ Pourquoi nous choisir, CTA)
-- [x] Phase 4 : animations, responsive, polish (transitions de page, page 404, corrections 320 px, accessibilité)
-- [x] Phase 5 : catalogue, fiche produit, catégories, recherche, panier, favoris, à propos
-- [ ] Page Contact (en attente de décision)
 
 ## Déploiement (Vercel)
 
-- Framework détecté : Vite (build `npm run build`, sortie `dist`).
-- `vercel.json` renvoie toutes les URL vers `index.html`, sinon un rafraîchissement
-  sur `/cart` ou `/products/1` donnerait une erreur 404 (React Router gère les routes côté client).
+- Framework : Vite (build `npm run build`, sortie `dist`). `vercel.json` renvoie toutes les URL vers
+  `index.html` (React Router gère les routes côté client).
+- Variable d'environnement à définir sur Vercel : `VITE_API_URL` → l'URL publique du back-end
+  (ex. `https://torque-api.onrender.com/api`).
+- Côté back-end, pensez à ajouter l'URL Vercel du front-end dans `CORS_ORIGINS`.
 
-## Photos des produits
+## Avancement
 
-Les photos vont dans `public/products/` (format 4:3, par exemple 1200 × 900 px, JPG, fond neutre).
-Tant qu'un fichier est absent, une illustration de secours s'affiche : le site fonctionne dès maintenant
-et chaque photo ajoutée remplace automatiquement l'illustration.
-
-| Fichier attendu | Produit |
-| --- | --- |
-| `plaquettes-frein-avant.jpg` | Plaquettes de frein avant |
-| `filtre-a-huile.jpg` | Filtre à huile |
-| `phare-led-universel.jpg` | Phare LED universel |
-| `disque-frein-ventile.jpg` | Disque de frein ventilé |
-| `amortisseur-avant.jpg` | Amortisseur avant |
-| `batterie-12v-60ah.jpg` | Batterie 12 V 60 Ah |
-| `bougies-allumage.jpg` | Bougies d'allumage (jeu de 4) |
-| `pneu-205-55-r16.jpg` | Pneu 205/55 R16 |
-| `filtre-habitacle.jpg` | Filtre d'habitacle |
-| `plaquettes-frein-arriere.jpg` | Plaquettes de frein arrière |
-| `amortisseur-arriere.jpg` | Amortisseur arrière |
-| `batterie-12v-70ah.jpg` | Batterie 12 V 70 Ah |
-| `feux-arriere-led.jpg` | Feux arrière LED |
-
-Les prix sont en euros (`utils/format.js`).
+- [x] Phase 1 à 4 : configuration, layout, landing page complète, responsive, animations
+- [x] Phase 5 (B5) : branchement sur l'API — catalogue réel, comptes, commandes, panier/favoris
+      protégés par connexion, espace admin simple

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import Container from "@/components/common/Container";
 import Logo from "@/components/common/Logo";
-import { categories } from "@/data/categories";
 import { mainNavigation } from "@/data/navigation";
 import { siteConfig } from "@/data/site";
+import { useCategories } from "@/hooks/useCategories";
 
 const footerLinkClass = "text-[15px] text-ink-2 transition-colors hover:text-accent";
 
@@ -17,6 +17,8 @@ function FooterColumn({ title, className = "", children }) {
 }
 
 export default function Footer() {
+  const { categories } = useCategories();
+
   return (
     <footer className="mt-24 border-t border-line pb-8 pt-14">
       <Container>
@@ -27,22 +29,18 @@ export default function Footer() {
           </div>
 
           <FooterColumn title="Navigation">
-            <ul role="list" className="space-y-2.5">
+            <ul className="space-y-2.5">
               {mainNavigation.map((item) => (
-                <li key={item.to}>
-                  <Link to={item.to} className={footerLinkClass}>{item.label}</Link>
-                </li>
+                <li key={item.to}><Link to={item.to} className={footerLinkClass}>{item.label}</Link></li>
               ))}
             </ul>
           </FooterColumn>
 
           <FooterColumn title="Catégories">
-            <ul role="list" className="space-y-2.5">
+            <ul className="space-y-2.5">
               {categories.slice(0, 6).map((category) => (
                 <li key={category.slug}>
-                  <Link to={`/categories/${category.slug}`} className={footerLinkClass}>
-                    {category.name}
-                  </Link>
+                  <Link to={`/categories/${category.slug}`} className={footerLinkClass}>{category.name}</Link>
                 </li>
               ))}
             </ul>
@@ -50,21 +48,16 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 text-sm text-ink-2">
-          <ul role="list" className="flex flex-wrap gap-2" aria-label="Réseaux sociaux">
+          <ul className="flex flex-wrap gap-2" aria-label="Réseaux sociaux">
             {siteConfig.socials.map((social) => (
               <li key={social.label}>
-                <a
-                  href={social.href}
-                  className="block rounded-full border border-line-strong px-3.5 py-2 font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-bg"
-                >
+                <a href={social.href} className="block rounded-full border border-line-strong px-3.5 py-2 font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-bg">
                   {social.label}
                 </a>
               </li>
             ))}
           </ul>
-          <p>
-            © {new Date().getFullYear()} {siteConfig.name}. Tous droits réservés.
-          </p>
+          <p>© {new Date().getFullYear()} {siteConfig.name}. Tous droits réservés.</p>
         </div>
       </Container>
     </footer>
